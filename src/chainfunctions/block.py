@@ -4,8 +4,10 @@ import requests
 import configparser
 import logging
 
-logging.getLogger(__name__).addHandler(logging.NullHandler()) 
+# Import the `config` object from the `chainfunctions` package
+from qrl_chain_scrape.chainfunctions import config
 
+# Access the 'walletd' section of the configuration file
 API_URL = config.get('walletd', 'url')
 
 # get the block height of the chain from the local node and return it

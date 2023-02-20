@@ -1,8 +1,9 @@
 [pricedb]
-db_name = chain-scrape
-db_user = qrl
-db_pass = blockchain
-db_host = localhost
+user = USRE
+password = PASSWORD
+host = localhost
+database = DATABASE_NAME
+
 
 [chaindb]
 db_name = chain-scrape
