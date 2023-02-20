@@ -16,7 +16,6 @@ Functions:
 import logging
 import requests
 
-
 def check_address_valid(address):
     """
     Check if an address is valid.
@@ -45,8 +44,6 @@ def check_address_valid(address):
         logging.error('Could not get address state: {}'.format(valid_address.json()['error']))
         raise Exception('Could not get address state: {}'.format(valid_address.json()['error']))
     return valid_address.json()['valid']
-
-
 
 # Get the balance of a given address from the local node and return it
 def get_address_balance(address):
@@ -135,8 +132,6 @@ def get_address_tx_hashes(address):
         address_tx_hashes['tx_hash'] = [tx_hash] # append to an appropriately named array
         # return the address tx hashes in an array with the "num_tx" key added to the array
     return address_tx_hashes  # return the address tx hashes in an array with the "num_tx" key added to the array
-
-
 
 def get_address_ots_keys(address):
     """
