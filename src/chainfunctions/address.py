@@ -140,26 +140,30 @@ def get_address_tx_hashes(address):
 
 def get_address_ots_keys(address):
     """
-    Get the address OTS keys from the local node for a given address and return it's data in a tuple.
+    Get the next unused OTS key index and total OTS key count of a given QRL address.
 
     Parameters
     ----------
-    address : str
-        The address to get the OTS keys of.
+        address: (str)
+            A QRL address string.
 
     Returns
     -------
-    tuple
-        A tuple containing the address OTS keys and total OTS keys.
+
+        int
+            The next unused OTS key index of the given address. 
+                If the address has no OTS keys, this function returns 0.
+
+    Raises
+    ------
+        Exception
+            If the request to the QRL walletd_rest_proxy fails or if the response contains an error.
 
     Example
     -------
-    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
-    get_address_ots_keys(address)
+    >>> get_address_ots_keys('Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d50553')
+    20
 
-    Returns
-    -------
-    (0, 65536)
     """
     try:
         payload = {"address": address}  # using the given address
@@ -176,50 +180,5 @@ def get_address_ots_keys(address):
         # FIXME(fr1t2): Validate if all keys have been used in a given address if ots array is empty or not. #pylint: disable='W0511'
         #   If the QRL walletd_rest_proxy finds a new address or a completely exhausted OTS key it returns an empty array.
         #   Test if this address is used or if it has never been used and somehow return the difference.
-        return (0, 2 ** parse_qrl_address(address)[2]) # return 0 if the address has no OTS keys or is unused...
-    return (int(get_ots_keys.json()['next_unused_ots_index']), 2 ** parse_qrl_address(address)[2]) # return the address ots keys and total ots keys as a tuple
-
-
-def parse_qrl_address(address):
-    """
-    Parse a QRL address and extract the signature scheme, hash function, and tree height.
-
-    the qrl address format is described in section 8.4 of the whitepaper found at https://github.com/theQRL/Whitepaper/blob/master/QRL_whitepaper.pdf
-    
-
-    Parameters
-    ----------
-    address : str
-        The QRL address to parse.
-
-    Returns
-    -------
-    tuple
-        A tuple containing the signature scheme, hash function, and tree height.
-
-    Example
-    -------
-    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
-    sig_scheme, hash_func, tree_height = parse_qrl_address(address)
-
-    print("Hash function:", "SHAKE-{}".format(128 << hash_func))
-    print("Signature scheme:", "XMSS" if sig_scheme == 0 else "WOTS")
-    print("Tree height:", 2 ** tree_height)
-
-    Output:
-    Hash function: SHAKE-256
-    Signature scheme: XMSS
-    Tree height: 16
-    """
-    # Convert the address to a bytes object
-    address_bytes = bytes.fromhex(address[1:])
-
-    # Extract the address header (first byte)
-    header = address_bytes[0]
-
-    # Extract the signature scheme, hash function, and tree height from the header
-    sig_scheme = (header >> 4) & 0x0F
-    hash_func = (header >> 2) & 0x03
-    tree_height = ((header & 0xFC) >> 2) + 1
-
-    return (sig_scheme, hash_func, tree_height)
+        return 0 # return 0 if the address has no OTS keys or is unused...
+    return int(get_ots_keys.json()['next_unused_ots_index']) # return the address ots keys and total ots keys as a tuple
