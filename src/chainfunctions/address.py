@@ -161,7 +161,7 @@ def get_address_ots_keys(address):
         #   If the QRL walletd_rest_proxy finds a new address or a completely exhausted OTS key it returns an empty array.
         #   Test if this address is used or if it has never been used and somehow return the difference.
         return (0, 2 ** parse_qrl_address(address)[2]) # return 0 if the address has no OTS keys or is unused...
-    return (get_ots_keys.json()['next_unused_ots_index'], 2 ** parse_qrl_address(address)[2]) # return the address ots keys and total ots keys as a tuple
+    return (int(get_ots_keys.json()['next_unused_ots_index']), 2 ** parse_qrl_address(address)[2]) # return the address ots keys and total ots keys as a tuple
 
 
 def parse_qrl_address(address):
