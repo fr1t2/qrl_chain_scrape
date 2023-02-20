@@ -17,8 +17,7 @@ def get_chain_height():
     :return: the height of the chain
     """
     # get the block height from the local node
-    try:pylint: error
-E0602 - Undefined variable 'config' (undefined-variable)
+    try:
         response = requests.get(f'{API_URL}/GetHeight') # 5359 is the default port for the QRL walletd-rest-proxy API
         response.raise_for_status()
     except requests.exceptions.RequestException as err:
