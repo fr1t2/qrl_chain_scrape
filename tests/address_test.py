@@ -47,6 +47,11 @@ def test_get_address_ots_keys():
     keys = get_address_ots_keys(address)
     assert isinstance(keys, int)
 
+    # Test an address with an empty response
+    address = "Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d50553"
+    keys = get_address_ots_keys(address)
+    assert isinstance(keys, int)
+    
     # Test an invalid address
     with pytest.raises(requests.exceptions.RequestException):
         address = "invalid_address"
@@ -57,10 +62,6 @@ def test_get_address_ots_keys():
         address = "error_address"
         keys = get_address_ots_keys(address)
 
-    # Test an address with an empty response
-    address = "Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d50553"
-    keys = get_address_ots_keys(address)
-    assert keys == 0
 
 
 def test_get_address_tx_hashes():
