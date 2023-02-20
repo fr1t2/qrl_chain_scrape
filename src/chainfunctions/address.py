@@ -82,36 +82,6 @@ def get_address_balance(address):
     return get_balance.json()['balance']  # return the address balance
 
 
-def get_address_ots_keys(address):
-    """
-    Get the address OTS keys from the local node for a given address and return it's data in an array.
-
-    Parameters
-    ----------
-    address : str
-        The address to get the OTS keys of.
-
-    Returns
-    -------
-    list of int
-        The address OTS keys in an array.
-    """
-    try:
-        payload = {"address": address}  # using the given address
-        get_ots_keys = requests.post("http://127.0.0.1:5359/api/GetOTS", json=payload)
-        get_ots_keys.raise_for_status()  # raise an exception if the request fails
-    except requests.exceptions.RequestException as err:
-        logging.error('Could not get address ots keys: {}'.format(err))
-        raise
-    # test that the response is not an error containing a "code" key in the json
-    if 'code' in get_ots_keys.json():
-        logging.error('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
-        raise Exception('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
-
-    return get_ots_keys.json()['next_unused_ots_index']  # return the address ots keys in an array
-
-
-
 def get_address_tx_hashes(address):
     """
     Get the address transaction hashes from the local node for a given address and return it's data in an array.
@@ -150,5 +120,71 @@ def get_address_tx_hashes(address):
 
 
 
+def get_address_ots_keys(address):
+    """
+    Get the address OTS keys from the local node for a given address and return it's data in an array.
 
-        
+    Parameters
+    ----------
+    address : str
+        The address to get the OTS keys of.
+
+    Returns
+    -------
+    list of int
+        The address OTS keys in an array.
+    """
+    try:
+        payload = {"address": address}  # using the given address
+        get_ots_keys = requests.post("http://127.0.0.1:5359/api/GetOTS", json=payload)
+        get_ots_keys.raise_for_status()  # raise an exception if the request fails
+    except requests.exceptions.RequestException as err:
+        logging.error('Could not get address ots keys: {}'.format(err))
+        raise
+    # test that the response is not an error containing a "code" key in the json
+    if 'code' in get_ots_keys.json():
+        logging.error('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
+        raise Exception('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
+    if get_ots_keys.json() == {}:
+        # is the address seen on the chain?
+        if not get_address_tx_hashes(address):
+            logging.info('Address {} has not been used'.format(address))
+            response = {"next_unused_ots_index": 0, "exhausted": False}
+        # the address has been used but all ots keys are used
+        logging.warning('Address {} has been used but all ots keys are used'.format(address))
+        # parse the address for the tree height using the parse_qrl_address function
+        address_tree_height = parse_qrl_address(address)[2]
+        # set the next unused ots key to the total tree height
+        response = {"next_unused_ots_index": address_tree_height, "exhausted": True}
+    # if the address has been used, the next unused OTS key is returned
+    else:
+        # return the ots keys from the response along with False for exhausted
+        response = {"next_unused_ots_index": get_ots_keys.json()['next_unused_ots_index'], "exhausted": False}
+    return response  # 
+
+
+
+def parse_qrl_address(address):
+    """
+    Parse a QRL address and extract the signature scheme, hash function, and tree height.
+
+    Parameters
+    ----------
+    address : str
+        The QRL address to parse.
+
+    Returns
+    -------
+    tuple
+        A tuple containing the signature scheme, hash function, and tree height.
+    """
+    # Convert the address to a bytes object
+    address_bytes = bytes.fromhex(address[1:])
+    # Extract the address header (first byte)
+    header = address_bytes[0]
+    # Extract the signature scheme, hash function, and tree height from the header
+    sig_scheme = (header >> 4) & 0x0F
+    hash_func = (header >> 2) & 0x03
+    tree_height = header & 0x03
+    return (sig_scheme, hash_func, tree_height)
+
