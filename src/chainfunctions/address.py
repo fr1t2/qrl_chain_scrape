@@ -120,14 +120,17 @@ def get_address_tx_hashes(address):
         raise Exception('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
 
     address_tx_hashes = {}  # create an empty array to store the address tx hashes in
-
-    if not get_tx_hashes.json()['mini_transactions']:
+    # is the response {}
+    if not get_tx_hashes.json(): # is the response {}
+        # if it is, return an array with the key "num_tx" set to '0' to indicate no transactions found
+        print(f'get_transactions: {get_tx_hashes.json()}')
         # return an array with the key "num_tx" set to '0' to indicate no transactions found
         address_tx_hashes["num_tx"] = [0]
         return address_tx_hashes  # return the address tx hashes in an array
-
+    # if the response is not empty, get the number of transactions found
+    address_tx_hashes["num_tx"] = [len(get_tx_hashes.json()['mini_transactions'])] # get the number of transactions found
     # loop through the mini_transactions array and get the transaction_hash
-    for tx_hash in  get_tx_hashes.json()['mini_transactions']:
+    for tx_hash in  get_tx_hashes.json()['mini_transactions']: 
         # append to an appropriately named array
         address_tx_hashes['tx_hash'] = [tx_hash] # append to an appropriately named array
         # return the address tx hashes in an array with the "num_tx" key added to the array
