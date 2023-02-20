@@ -40,11 +40,11 @@ def check_address_valid(address):
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address state: {}'.format(err)) 
         raise
-
-    # get the address state from the response
-    address_state = valid_address.json()['valid']  # get the address state from the response
-
-    return address_state  # return the address state
+    # check for a "code" key in the json as this indicates a failure of some sort. Handle error raising an Exception if so 
+    if 'code' in valid_address.json():
+        logging.error('Could not get address state: {}'.format(valid_address.json()['error']))
+        raise Exception('Could not get address state: {}'.format(valid_address.json()['error']))
+    return valid_address.json()['valid']
 
 
 
@@ -79,12 +79,7 @@ def get_address_balance(address):
     if 'code' in get_balance.json():
         logging.error('Could not get address balance: {}'.format(get_balance.json()['error']))
         raise Exception('Could not get address balance: {}'.format(get_balance.json()['error']))
-    else:
-        address_balance = get_balance.json()['balance']
-        print('Address {} balance response {}'.format(address, address_balance))
-
-    return address_balance  # return the address balance
-
+    return get_balance.json()['balance']  # return the address balance
 
 
 def get_address_ots_keys(address):
@@ -108,11 +103,12 @@ def get_address_ots_keys(address):
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address ots keys: {}'.format(err))
         raise
+    # test that the response is not an error containing a "code" key in the json
+    if 'code' in get_ots_keys.json():
+        logging.error('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
+        raise Exception('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
 
-    # get the address ots keys from the response
-    address_ots_keys = get_ots_keys.json()['next_unused_ots_index']  # get the address ots keys from the response
-
-    return address_ots_keys  # return the address ots keys in an array
+    return get_ots_keys.json()['next_unused_ots_index']  # return the address ots keys in an array
 
 
 
@@ -139,12 +135,16 @@ def get_address_tx_hashes(address):
         logging.error('Could not get address tx hashes: {}'.format(err))
         raise
 
-    # get the address tx hashes from the response
-    address_tx_hashes = get_tx_hashes.json()['mini_transactions']  # get the address tx hashes from the response
+    # test that the response is not an error containing a "code" key in the json
+    if 'code' in get_tx_hashes.json():
+        logging.error('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
+        raise Exception('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
 
-    for tx_hash in address_tx_hashes:
+    address_tx_hashes = []  # create an empty array to store the address tx hashes in
+    # loop through the mini_transactions array and get the transaction_hash
+    for tx_hash in  get_tx_hashes.json()['mini_transactions']:
         # append to an appropriately named array
-        address_tx_hashes.append(tx_hash['transaction_hash'])  # append to an appropriately named array
+        address_tx_hashes.append(tx_hash['transaction_hash'])  
 
     return address_tx_hashes  # return the address tx hashes in an array
 
