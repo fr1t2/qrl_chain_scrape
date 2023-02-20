@@ -99,7 +99,7 @@ def get_address_tx_hashes(address):
 
     try:
         payload = {"address": address}  # using the given address
-        get_tx_hashes = requests.post("http://127.0.0.1:5359/api/GetTransactions", json=payload)
+        get_tx_hashes = requests.post("http://127.0.0.1:5359/api/GetTransactionsByAddress", json=payload)
         get_tx_hashes.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address tx hashes: {}'.format(err))
