@@ -2,6 +2,8 @@
 
 """
 import logging
+import mysql.connector
+
 from config import config
 
 # check for MySQLdb module
