@@ -73,7 +73,7 @@ def get_address_balance(address):
         raise
 
     # get the address balance from the response
-    address_balance = get_balance.json()['balance']  # get the address balance from the response
+    #address_balance = get_balance.json()['balance']  # get the address balance from the response
 
     return address_balance  # return the address balance
 
