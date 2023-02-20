@@ -1,7 +1,7 @@
-from . import chainfunctions
-from . import config
-from . import dbhelper
-from . import logginghelper
+from qrl_chain_scrape import chainfunctions
+from qrl_chain_scrape import config
+from qrl_chain_scrape import dbhelper
+from qrl_chain_scrape import logginghelper
 
 logging.getLogger(__name__).addHandler(logging.NullHandler()) # set up logging
 
