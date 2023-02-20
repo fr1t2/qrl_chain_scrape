@@ -5,9 +5,6 @@ import configparser
 import logging
 from src import config
 
-# Import the `config` object from the `chainfunctions` package
-from qrl_chain_scrape.chainfunctions import config
-
 # Access the 'walletd' section of the configuration file
 API_URL = config.get('walletd', 'url')
 
