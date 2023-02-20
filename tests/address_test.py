@@ -1,3 +1,4 @@
+import pytest
 from src import check_address_valid, get_address_balance, get_address_ots_keys, get_address_tx_hashes
 
 """
