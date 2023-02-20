@@ -124,7 +124,7 @@ def get_address_tx_hashes(address):
 
 def get_address_ots_keys(address):
     """
-    Get the address OTS keys from the local node for a given address and return it's data in an array.
+    Get the address OTS keys from the local node for a given address and return it's data in a tuple.
 
     Parameters
     ----------
@@ -133,8 +133,8 @@ def get_address_ots_keys(address):
 
     Returns
     -------
-    list of int
-        The address OTS keys in an array.
+    tuple
+        A tuple containing the address OTS keys and total OTS keys.
 
     Example
     -------
@@ -143,7 +143,7 @@ def get_address_ots_keys(address):
 
     Returns
     -------
-    0
+    (0, 65536)
     """
     try:
         payload = {"address": address}  # using the given address
@@ -160,9 +160,8 @@ def get_address_ots_keys(address):
         # FIXME(fr1t2): Validate if all keys have been used in a given address if ots array is empty or not. #pylint: disable='W0511'
         #   If the QRL walletd_rest_proxy finds a new address or a completely exhausted OTS key it returns an empty array.
         #   Test if this address is used or if it has never been used and somehow return the difference.
-        return 0 # return 0 if the address has no OTS keys or is unused...
-    return get_ots_keys.json()['next_unused_ots_index'] # return the address ots keys in an array
-
+        return (0, 2 ** parse_qrl_address(address)[2]) # return 0 if the address has no OTS keys or is unused...
+    return (get_ots_keys.json()['next_unused_ots_index'], 2 ** parse_qrl_address(address)[2]) # return the address ots keys and total ots keys as a tuple
 
 
 def parse_qrl_address(address):
