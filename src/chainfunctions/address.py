@@ -93,10 +93,19 @@ def get_address_tx_hashes(address):
 
     Returns
     -------
-    list of str
-        The address transaction hashes in an array.
-    """
+    dict
+        A dictionary with two keys:
+            - 'num_tx': An array with the number of transactions found. If no transactions are found, it will be [0].
+            - 'tx_hashes': An array with the transaction hashes.
 
+    Example
+    -------
+    >>> get_address_tx_hashes('Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247')
+    {
+        'num_tx': [2],
+        'tx_hashes': ['0xabcde...', '0xfghij...']
+    }
+    """
     try:
         payload = {"address": address}  # using the given address
         get_tx_hashes = requests.post("http://127.0.0.1:5359/api/GetTransactionsByAddress", json=payload)
@@ -110,15 +119,19 @@ def get_address_tx_hashes(address):
         logging.error('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
         raise Exception('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
 
-    address_tx_hashes = []  # create an empty array to store the address tx hashes in
-    
+    address_tx_hashes = {}  # create an empty array to store the address tx hashes in
+
+    if not get_tx_hashes.json()['mini_transactions']:
+        # return an array with the key "num_tx" set to '0' to indicate no transactions found
+        address_tx_hashes["num_tx"] = [0]
+        return address_tx_hashes  # return the address tx hashes in an array
 
     # loop through the mini_transactions array and get the transaction_hash
     for tx_hash in  get_tx_hashes.json()['mini_transactions']:
         # append to an appropriately named array
-        address_tx_hashes.append(tx_hash['transaction_hash'])  
-
-    return address_tx_hashes  # return the address tx hashes in an array
+        address_tx_hashes['tx_hash'] = [tx_hash] # append to an appropriately named array
+        # return the address tx hashes in an array with the "num_tx" key added to the array
+    return address_tx_hashes  # return the address tx hashes in an array with the "num_tx" key added to the array
 
 
 
