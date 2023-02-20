@@ -8,7 +8,7 @@ import datetime
 import mysql.connector
 import requests
 
-from qrl_chain_scrape import config
+from src import config
 
 #import os
 #import configparser
@@ -334,14 +334,52 @@ def cg_rate_limit(time_of_request):
         return cg_rate_limit(time.time()) if time_to_wait > 0 else False
     return True
 
+#def coin_check(symbol):
+#    """Check whether data for a given coin is up to date.
+#
+#    This function queries the database for the last entered timestamp for the given coin and 
+#    checks if the data is less than or equal to 86400 seconds (1 day) old. If the data is up 
+#    to date, it returns a list with two elements:
+#    The first element is True, and the second element is the timestamp of the last data entry. 
+#    If the data is not up to date or an error occurs, it returns a list with two elements: 
+#    the first element is False, and the second element is the timestamp of the last data entry.
+#
+#    Args:
+#        symbol (str): The symbol of the coin to check.
+#
+#    Returns:
+#        A list with two elements: the first element is a boolean indicating whether the data is up to date, and the
+#        second element is the timestamp of the last data entry.
+#
+#    Example:
+#        >>> coin_check('BTC')
+#        cur: 1645093196 - last: 1645093195 = True
+#        [True, 1645093195]
+#    """
+#    up_to_date = [False, 0]  # initialize to default value
+#    last_timestamp = 0  # initialize to default value
+#    try:
+#        cnx = connect_to_db()
+#        mycursor = cnx.cursor(buffered=True)
+#        mycursor.execute("SELECT date_stamp FROM " + symbol + " ORDER BY date_stamp DESC LIMIT 1")
+#        result = mycursor.fetchone()
+#        if result is not None:
+#            last_timestamp = result[0]
+#            current_time = int(time.time())
+#            if (int(current_time) - (int(last_timestamp)/1000)) <= 86400:
+#                up_to_date = [True, last_timestamp]
+#    except: #pylint: disable=W0702
+#        up_to_date = [False, last_timestamp]  # initialize to default value
+#    cnx.close()
+#    return up_to_date
 def coin_check(symbol):
     """Check whether data for a given coin is up to date.
 
-    This function queries the database for the last entered timestamp for the given coin and 
-    checks if the data is less than or equal to 86400 seconds (1 day) old. If the data is up 
+    This function queries the database for the last entered timestamp for the given coin and
+    checks if the data is less than or equal to 86400 seconds (1 day) old. If the data is up
     to date, it returns a list with two elements:
-    The first element is True, and the second element is the timestamp of the last data entry. 
-    If the data is not up to date or an error occurs, it returns a list with two elements: 
+    The first element is True, and the second element is the timestamp of the last data entry.
+    If the data is not up to date or an error occurs, it returns a list with two elements:
     the first element is False, and the second element is the timestamp of the last data entry.
 
     Args:
@@ -361,7 +399,8 @@ def coin_check(symbol):
     try:
         cnx = connect_to_db()
         mycursor = cnx.cursor(buffered=True)
-        mycursor.execute("SELECT date_stamp FROM " + symbol + " ORDER BY date_stamp DESC LIMIT 1")
+        query = "SELECT date_stamp FROM %s ORDER BY date_stamp DESC LIMIT 1"
+        mycursor.execute(query, (symbol,))
         result = mycursor.fetchone()
         if result is not None:
             last_timestamp = result[0]
