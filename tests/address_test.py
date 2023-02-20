@@ -1,4 +1,4 @@
-from address import check_address_valid, get_address_balance, get_address_ots_keys, get_address_tx_hashes
+from src import check_address_valid, get_address_balance, get_address_ots_keys, get_address_tx_hashes
 
 """
 functions to test the address.py API calls from /src/chainfunctions/address
