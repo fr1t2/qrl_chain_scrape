@@ -3,6 +3,7 @@ import mysql.connector
 import requests
 import configparser
 import logging
+from src import config
 
 # Import the `config` object from the `chainfunctions` package
 from qrl_chain_scrape.chainfunctions import config
