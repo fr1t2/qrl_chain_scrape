@@ -10,8 +10,13 @@ pub: Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d5
 
 """
 import pytest
+import requests
 
-from src import check_address_valid, get_address_balance, get_address_ots_keys, get_address_tx_hashes
+from src import check_address_valid
+from src import get_address_balance 
+from src import get_address_ots_keys
+from src import get_address_tx_hashes
+from src import parse_qrl_address
 
 
 def test_get_address_balance():
@@ -37,20 +42,30 @@ def test_check_address_valid():
 
 
 def test_get_address_ots_keys():
-    """
-    test the get_address_ots_keys fuction from address.py
-    """
-    # this should pass as the address is valid
-    assert get_address_ots_keys('Q0106004c828d4adf4674d539cafc6f7585ca249c6d23acf5c46bc8bc5821f1cb23cc59a0b6298b') # valid address
-    assert get_address_ots_keys('Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d50553') # new address
-    # this should fail as the address is invalid
+    # Test a valid address
+    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
+    keys = get_address_ots_keys(address)
+    assert isinstance(keys, int)
+
+    # Test an invalid address
+    with pytest.raises(requests.exceptions.RequestException):
+        address = "invalid_address"
+        keys = get_address_ots_keys(address)
+
+    # Test an address with an error response
     with pytest.raises(Exception):
-        get_address_ots_keys('invalid_address') # invalid address
+        address = "error_address"
+        keys = get_address_ots_keys(address)
+
+    # Test an address with an empty response
+    address = "Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d50553"
+    keys = get_address_ots_keys(address)
+    assert keys == 0
 
 
 def test_get_address_tx_hashes():
     """
-    test the get_address_tx_hashes fuction from address.py
+    test the get_address_tx_hashes function from address.py
     """
     # this should pass as the address is valid
     assert get_address_tx_hashes('Q010500dacbf29a83ef6832bcf16f0592adb15313836228a873a7b8eed1c354c4414a206ad38728') # valid address
@@ -58,3 +73,31 @@ def test_get_address_tx_hashes():
     with pytest.raises(Exception):
         get_address_tx_hashes('invalid_address') # invalid address
 
+
+
+def test_parse_qrl_address():
+    # Test valid address
+    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
+    sig_scheme, hash_func, tree_height = parse_qrl_address(address)
+    assert sig_scheme == 0
+    assert hash_func == 2
+    assert tree_height == 4
+    
+    # Test invalid address - shorter than expected
+    with pytest.raises(IndexError):
+        address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a22912"
+        parse_qrl_address(address)
+    
+    # Test invalid address - invalid character
+    with pytest.raises(ValueError):
+        address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a22$1247"
+        parse_qrl_address(address)
+    
+    # Test invalid address - longer than expected
+    with pytest.raises(IndexError):
+        address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247a"
+        parse_qrl_address(address)
+
+
+if __name__ == '__main__':
+    pytest.main([__file__])

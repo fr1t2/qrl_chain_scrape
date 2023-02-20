@@ -135,6 +135,15 @@ def get_address_ots_keys(address):
     -------
     list of int
         The address OTS keys in an array.
+
+    Example
+    -------
+    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
+    get_address_ots_keys(address)
+
+    Returns
+    -------
+    0
     """
     try:
         payload = {"address": address}  # using the given address
