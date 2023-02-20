@@ -66,6 +66,7 @@ def get_address_balance(address):
     try:
         payload = {"address": address}  # using the given address
         get_balance = requests.post("http://127.0.0.1:5359/api/GetBalance", json=payload)
+        logging.info('Address {} balance response {}'.format(address, get_balance))
         get_balance.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address balance: {}'.format(err))
