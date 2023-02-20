@@ -111,6 +111,8 @@ def get_address_tx_hashes(address):
         raise Exception('Could not get address tx hashes: {}'.format(get_tx_hashes.json()['error']))
 
     address_tx_hashes = []  # create an empty array to store the address tx hashes in
+    
+
     # loop through the mini_transactions array and get the transaction_hash
     for tx_hash in  get_tx_hashes.json()['mini_transactions']:
         # append to an appropriately named array
@@ -146,21 +148,8 @@ def get_address_ots_keys(address):
         logging.error('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
         raise Exception('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
     if get_ots_keys.json() == {}:
-        # is the address seen on the chain?
-        if not get_address_tx_hashes(address):
-            logging.info('Address {} has not been used'.format(address))
-            response = {"next_unused_ots_index": 0, "exhausted": False}
-        # the address has been used but all ots keys are used
-        logging.warning('Address {} has been used but all ots keys are used'.format(address))
-        # parse the address for the tree height using the parse_qrl_address function
-        address_tree_height = parse_qrl_address(address)[2]
-        # set the next unused ots key to the total tree height
-        response = {"next_unused_ots_index": address_tree_height, "exhausted": True}
-    # if the address has been used, the next unused OTS key is returned
-    else:
-        # return the ots keys from the response along with False for exhausted
-        response = {"next_unused_ots_index": get_ots_keys.json()['next_unused_ots_index'], "exhausted": False}
-    return response  # 
+        return 0 # return 0 if the address has no OTS keys or is unused...
+    return get_ots_keys.json()['next_unused_ots_index'] # return the address ots keys in an array
 
 
 
