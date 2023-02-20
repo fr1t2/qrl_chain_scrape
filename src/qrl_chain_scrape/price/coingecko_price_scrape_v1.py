@@ -7,15 +7,18 @@ import time
 import datetime
 import mysql.connector
 import requests
-import os
-import configparser
+
+from qrl_chain_scrape import config
+
+#import os
+#import configparser
 
 LAST_UPDATE = time.time()
 
 # Load configuration from file
-config = configparser.ConfigParser()
-config.read(os.path.join(os.path.dirname(__file__), 'config.ini'))
-print(os.path.join(os.path.dirname(__file__), 'config.ini'))  
+#config = configparser.ConfigParser()
+#config.read(os.path.join(os.path.dirname(__file__), 'config.ini'))
+#print(os.path.join(os.path.dirname(__file__), 'config.ini'))  
 print(config.get('pricedb', 'user'))
 db_user = config.get('pricedb', 'user')
 db_password = config.get('pricedb', 'password')
