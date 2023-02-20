@@ -1,6 +1,10 @@
-from . import chainfunctions
-from . import loggingconf
-from ._version import get_versions
+import configparser
+import os
 
-__version__ = get_versions()['version']
-del get_versions
+# Load the configuration file
+config_file = os.path.join(os.path.dirname(__file__), 'config.ini.example')
+config = configparser.ConfigParser()
+config.read(config_file)
+
+# Import the chainfunctions sub-module
+from src.chainfunctions import *
