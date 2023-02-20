@@ -26,12 +26,12 @@ config = configparser.ConfigParser()
 config.read(config_path)
 
 # Make the ConfigParser object available to other modules in the package
-from .src.qrl_chain_scrape import chainfunctions
-from .src.qrl_chain_scrape import core
-from .src.qrl_chain_scrape import db
-from .src.qrl_chain_scrape import loggingconf
-from .src.qrl_chain_scrape import price
-from ._version import get_versions
+from qrl_chain_scrape import chainfunctions
+from qrl_chain_scrape import core
+from qrl_chain_scrape import db
+from qrl_chain_scrape import loggingconf
+from qrl_chain_scrape import price
+from _version import get_versions
 
 __version__ = get_versions()['version']
 del get_versions
