@@ -148,6 +148,9 @@ def get_address_ots_keys(address):
         logging.error('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
         raise Exception('Could not get address ots keys: {}'.format(get_ots_keys.json()['error']))
     if get_ots_keys.json() == {}:
+        # FIXME(fr1t2): Validate if all keys have been used in a given address if ots array is empty or not. #pylint: disable='W0511'
+        #   If the QRL walletd_rest_proxy finds a new address or a completely exhausted OTS key it returns an empty array.
+        #   Test if this address is used or if it has never been used and somehow return the difference.
         return 0 # return 0 if the address has no OTS keys or is unused...
     return get_ots_keys.json()['next_unused_ots_index'] # return the address ots keys in an array
 
@@ -166,6 +169,20 @@ def parse_qrl_address(address):
     -------
     tuple
         A tuple containing the signature scheme, hash function, and tree height.
+
+    Example
+    -------
+    address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
+    sig_scheme, hash_func, tree_height = parse_qrl_address(address)
+
+    print("Hash function:", "SHAKE-{}".format(128 << hash_func))
+    print("Signature scheme:", "XMSS" if sig_scheme == 0 else "WOTS")
+    print("Tree height:", 2 ** tree_height)
+
+    Output:
+    Hash function: SHAKE-256
+    Signature scheme: XMSS
+    Tree height: 16
     """
     # Convert the address to a bytes object
     address_bytes = bytes.fromhex(address[1:])
