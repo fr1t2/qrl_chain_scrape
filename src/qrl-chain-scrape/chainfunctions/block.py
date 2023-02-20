@@ -6,6 +6,7 @@ import logging
 
 logging.getLogger(__name__).addHandler(logging.NullHandler()) 
 
+API_URL = config.get('walletd', 'url')
 
 # get the block height of the chain from the local node and return it
 def get_chain_height():
@@ -15,7 +16,7 @@ def get_chain_height():
     """
     # get the block height from the local node
     try:
-        response = requests.get('http://127.0.0.1:5359/api/GetHeight') # 5359 is the default port for the QRL walletd-rest-proxy API
+        response = requests.get(f'{API_URL}/GetHeight') # 5359 is the default port for the QRL walletd-rest-proxy API
         response.raise_for_status()
     except requests.exceptions.RequestException as err:
         logging.error('Could not get chain height: {}'.format(err))

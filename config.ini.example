@@ -11,5 +11,5 @@ db_pass = blockchain
 db_host = localhost
 
 [walletd]
-url = http://127.0.0.1:5359/api/
+url = http://127.0.0.1:5359/api
 
