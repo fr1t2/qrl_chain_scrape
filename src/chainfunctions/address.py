@@ -86,6 +86,7 @@ def get_address_balance(address):
     return address_balance  # return the address balance
 
 
+
 def get_address_ots_keys(address):
     """
     Get the address OTS keys from the local node for a given address and return it's data in an array.
