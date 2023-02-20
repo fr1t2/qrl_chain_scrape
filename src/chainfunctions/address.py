@@ -213,13 +213,13 @@ def parse_qrl_address(address):
     """
     # Convert the address to a bytes object
     address_bytes = bytes.fromhex(address[1:])
-    
+
     # Extract the address header (first byte)
     header = address_bytes[0]
-    
+
     # Extract the signature scheme, hash function, and tree height from the header
     sig_scheme = (header >> 4) & 0x0F
     hash_func = (header >> 2) & 0x03
-    tree_height = header & 0x03
-    
+    tree_height = ((header & 0xFC) >> 2) + 1
+
     return (sig_scheme, hash_func, tree_height)
