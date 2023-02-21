@@ -69,7 +69,7 @@ def get_address_balance(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_balance = requests.post(f"{API_URL}:{API_PORT}/api/GetBalance", json=payload)
+        get_balance = requests.post(f'{API_URL}:{API_PORT}/api/GetBalance', json=payload)
         get_balance.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address balance: {}'.format(err))
@@ -112,7 +112,7 @@ def get_address_tx_hashes(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_tx_hashes = requests.post(f"{API_URL}:{API_PORT}/api/GetTransactionsByAddress", json=payload)
+        get_tx_hashes = requests.post(f'{API_URL}:{API_PORT}/api/GetTransactionsByAddress', json=payload)
         get_tx_hashes.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address tx hashes: {}'.format(err))
@@ -169,7 +169,7 @@ def get_address_ots_keys(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_ots_keys = requests.post(f"{API_URL}:{API_PORT}/api/GetOTS", json=payload)
+        get_ots_keys = requests.post(f'{API_URL}:{API_PORT}/api/GetOTS', json=payload)
         get_ots_keys.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address ots keys: {}'.format(err))

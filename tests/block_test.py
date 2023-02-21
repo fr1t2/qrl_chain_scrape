@@ -46,8 +46,10 @@ def test_get_chain_height():
     # get the block height from the response
     return response.json()['height'] # return the height of the chain
 
+block_height = 15
+
 # get the block data from the local node for a given block and return it's data in an array
-def test_get_block_data(block_height):
+def test_get_good_block_data(block_height):
     """ Test the get_block_data() function.
     """
     # get the block data from the local node
