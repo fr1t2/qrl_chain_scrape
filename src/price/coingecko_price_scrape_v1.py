@@ -10,7 +10,7 @@ import requests
 
 from src import config
 
-#import os
+import os
 #import configparser
 
 LAST_UPDATE = time.time()
