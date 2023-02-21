@@ -1,3 +1,7 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c1e7c527ab94e77a2b0ad58a0af78bd)](https://www.codacy.com/gh/fr1t2/qrl_chain_scrape/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fr1t2/qrl_chain_scrape&amp;utm_campaign=Badge_Grade)
+
+[![Run TODO to Issue](https://github.com/fr1t2/qrl_chain_scrape/actions/workflows/workflow.yml/badge.svg?branch=dev)](https://github.com/fr1t2/qrl_chain_scrape/actions/workflows/workflow.yml)
+
 # Coin-Scrape
 
 This will pull in all of the blockchain data into a mysql database. Is there a better choice, likely however I know MySQL and like to stick with what I am good at.
