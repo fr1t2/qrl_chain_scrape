@@ -25,12 +25,12 @@ def test_example_config_file_opens():
 
 def test_config_file_not_empty():
     """Ensure the file is not empty"""
-    config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
+    config_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'qrl_chain_state', 'src', 'config.ini'))
     assert os.stat(config_file).st_size > 0, "Config file is empty"
 
 def test_config_file_is_ini():
     """Check that ist is a vaild .ini file"""
-    config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
+    config_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'qrl_chain_state', 'src', 'config.ini'))
     assert os.path.splitext(config_file)[1] == '.ini', "Config file is not named as a valid .ini file"
 
 def test_all_sections_and_keys_are_present():
