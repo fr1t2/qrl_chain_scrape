@@ -1,0 +1,2 @@
+# qrl_chain_scrape
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f5e67f3e1abe4771a135f1695dd25c5b)](https://app.codacy.com/gh/fr1t2/qrl_chain_scrape?utm_source=github.com&utm_medium=referral&utm_content=fr1t2/qrl_chain_scrape&utm_campaign=Badge_Grade_Settings)
