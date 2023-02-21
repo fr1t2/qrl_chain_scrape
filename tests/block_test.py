@@ -34,7 +34,7 @@ def test_get_good_block_data():
     assert block_data_recieved != "True"
     assert block_data_recieved != "None"
     # assert that it is 15
-    assert block_data_recieved['block_height'] == block_height
+    assert int(block_data_recieved['block_height']) == block_height
 
 
     #assert get_block_data(block_height) is not None
@@ -52,7 +52,7 @@ def test_get_good_block_data():
     #assert get_block_data(block_height) != "None"
 
     # assert that it is 15
-    assert get_block_data(block_height)['block_number'] == 15
+    assert int(get_block_data(block_height)['block_number']) == 15
 
     # assert that it is a dict
     assert isinstance(get_block_data(block_height), dict)
