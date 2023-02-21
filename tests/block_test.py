@@ -19,19 +19,37 @@ def test_get_good_block_data():
     """ Test the get_block_data() function.
     """
     block_height = 15
-    assert get_block_data(block_height) is not None
-    assert get_block_data(block_height) != {}
-    assert get_block_data(block_height) != []
-    assert get_block_data(block_height) != ""
-    assert get_block_data(block_height) != 0
-    assert get_block_data(block_height) != 0.0
-    assert get_block_data(block_height) is not False
-    assert get_block_data(block_height) is not True
-    assert get_block_data(block_height) != "0"
-    assert get_block_data(block_height) != "0.0"
-    assert get_block_data(block_height) != "False"
-    assert get_block_data(block_height) != "True"
-    assert get_block_data(block_height) != "None"
+    block_data_recieved = get_block_data(block_height)
+    assert block_data_recieved is not None
+    assert block_data_recieved != {}
+    assert block_data_recieved != []
+    assert block_data_recieved != ""
+    assert block_data_recieved != 0
+    assert block_data_recieved != 0.0
+    assert block_data_recieved is not False
+    assert block_data_recieved is not True
+    assert block_data_recieved != "0"
+    assert block_data_recieved != "0.0"
+    assert block_data_recieved != "False"
+    assert block_data_recieved != "True"
+    assert block_data_recieved != "None"
+    # assert that it is 15
+    assert block_data_recieved['block_height'] == block_height
+
+
+    #assert get_block_data(block_height) is not None
+    #assert get_block_data(block_height) != {}
+    #assert get_block_data(block_height) != []
+    #assert get_block_data(block_height) != ""
+    #assert get_block_data(block_height) != 0
+    #assert get_block_data(block_height) != 0.0
+    #assert get_block_data(block_height) is not False
+    #assert get_block_data(block_height) is not True
+    #assert get_block_data(block_height) != "0"
+    #assert get_block_data(block_height) != "0.0"
+    #assert get_block_data(block_height) != "False"
+    #assert get_block_data(block_height) != "True"
+    #assert get_block_data(block_height) != "None"
 
     # assert that it is 15
     assert get_block_data(block_height)['block_number'] == 15
