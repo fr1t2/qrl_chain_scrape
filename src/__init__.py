@@ -15,11 +15,10 @@ See information at https://qrl.co.in/qrl-coin-scrape/docs
  """
 import configparser
 import os
-
-# Load the configuration file
-config_file = os.path.join(os.path.dirname(__file__), 'config.ini.example')
-config = configparser.ConfigParser()
-config.read(config_file)
-
+import logging
 # Import the chainfunctions sub-module
-from src.chainfunctions import *
+# from src.chainfunctions import *
+
+# Load the configuration file, reporting any failures if found
+
+from core import config

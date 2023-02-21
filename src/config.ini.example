@@ -1,15 +1,19 @@
 [pricedb]
-user = USRE
+user = USER
 password = PASSWORD
 host = localhost
-database = DATABASE_NAME
+database = DATABASE_NAME # default: pricedb
+port = 3306 # default: 3306
 
 
 [chaindb]
-db_name = chain-scrape
-db_user = qrl
-db_pass = blockchain
-db_host = localhost
+database = chain-scrape # mysql database name
+user = qrl # mysql user
+password = blockchain # mysql password
+host = localhost # mysql host (default localhost)
+port = 3306 # mysql port number (default 3306)
+
+
 
 [walletd]
 url = http://127.0.0.1

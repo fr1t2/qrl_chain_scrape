@@ -2,9 +2,6 @@
 
 """
 import logging
-import mysql.connector
-
-from config import config
 
 # check for MySQLdb module
 try:
@@ -12,6 +9,83 @@ try:
 except ImportError:
     logging.error('MySQLdb module not found. Please install it with: pip3 install MySQL-python')
     raise
+
+from config import config
+
+# db_user = config.get('pricedb', 'user')
+# db_password = config.get('pricedb', 'password')
+# db_host = config.get('pricedb', 'host')
+# db_name = config.get('pricedb', 'database')
+
+
+# connect to the given database, if no database is given connect to the default database found in the config chaindb.database variable
+def connect(database=None):
+    """ Connect to the database and return the connection object.
+
+    :param database: the database to connect to
+    :return: the connection object
+    """
+    logging.info('Connecting to database...')
+
+    # if no database is given, use the default database
+    if database is None:
+        database = config['chaindb']['database']
+        logging.info('No database given, using default database: {}'.format(database))
+
+    # is the config empty? if empty exit on failure, log the error and suggest coping the config.ini.example to the correct location
+    if not config:
+        logging.error('Config file not found. Please copy config.ini.example to the correct location /qrl_chain_scrape/src/config.ini.')
+        raise Exception('Config file not found. Please copy config.ini.example to the correct location in /qrl_chain_scrape/src/config.ini.')
+
+    # is the database section found in the config.ini file? if not, raise an error and exit
+    if 'database' not in config:
+        logging.error('Database section not found in config.ini file.')
+        raise Exception('Database section not found in config.ini file.')
+    # is the user, password, host and port found in the config.ini file? 
+    if 'user' not in config[database] or 'password' not in config[database] or 'host' not in config[database] or 'port' not in config[database]:
+        logging.error('Database credentials not found in config.ini file.')
+        raise Exception('Database credentials not found in config.ini file.')
+    # is the database found in the config.ini file under either pricedb  and chaindb? if not, raise an error and exit
+    if database not in config['pricedb'] and database not in config['chaindb']:
+        logging.error('Database {} not found in config.ini file.'.format(database))
+        raise Exception('Database {} not found in config.ini file.'.format(database))
+
+
+    # handle any errors that might occur while connecting to the database
+    try:
+        connection = mysql.connector.connect(
+            host=config.get(database, 'host'),
+            port=config.get(database, 'port'),
+            user=config.get(database, 'user'),
+            password=config.get(database, 'password'),
+            database=database
+        )
+        logging.info('Connected to database {}.'.format(database)) # log the database name
+
+    except mysql.connector.Error as err:
+        logging.error('Could not connect to database: {}'.format(err))
+        raise
+
+    return connection # return the connection object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def connect():
@@ -24,8 +98,8 @@ def connect():
 # handle any errors that might occur while connecting to the database
     try:
         connection = mysql.connector.connect(
-            host=config['chaindb']['host'],
-            port=config['chaindb']['port'],
+            host=config.get('pricedb', 'host'),
+            port=config.get('pricedb', 'port'),
             user=config['chaindb']['user'],
             password=config['chaindb']['password'],
             database=config['chaindb']['database']
