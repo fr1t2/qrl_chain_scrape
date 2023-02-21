@@ -4,8 +4,8 @@
 import pytest
 
 # import the functions to be tested
-from src import get_chain_height
-from src import get_block_data
+from src.chainfunctions import get_chain_height
+from src.chainfunctions import get_block_data
 
 
 
