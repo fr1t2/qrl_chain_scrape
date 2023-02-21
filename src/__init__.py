@@ -31,7 +31,7 @@ except:
 try:
     example_config_file = os.path.join(os.path.dirname(__file__), 'config.ini.example') # get the path to the config file
     ex_conf = configparser.ConfigParser() # create a new config object
-    ex_conf.read_file(example_config_file) # read the config file
+    ex_conf.read(example_config_file) # read the config file
 except configparser.Error:
     logging.error('Config file is not a valid. Please copy config.ini.example to the correct location /qrl_chain_scrape/src/config.ini.')
     raise Exception('Config file is not a valid. Please copy config.ini.example to the correct location in /qrl_chain_scrape/src/config.ini.')
