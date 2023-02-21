@@ -17,7 +17,8 @@ import configparser
 import os
 import logging
 # Import the chainfunctions sub-module
-from src.chainfunctions import *
+# from src.chainfunctions import *
+
 
 # test the config file opens and fail if not 
 try:

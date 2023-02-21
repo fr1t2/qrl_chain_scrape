@@ -12,10 +12,10 @@ pub: Q01050077508d89dcd73be1d8b2458418d2afc9eca0809bd09114087bd3bf948b83a1a9e0d5
 import pytest
 import requests
 
-from src import check_address_valid
-from src import get_address_balance 
-from src import get_address_ots_keys
-from src import get_address_tx_hashes
+from src.chainfunctions import check_address_valid
+from src.chainfunctions import get_address_balance 
+from src.chainfunctions import get_address_ots_keys
+from src.chainfunctions import get_address_tx_hashes
 
 
 def test_get_address_balance():
