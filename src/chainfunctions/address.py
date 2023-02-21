@@ -16,6 +16,13 @@ Functions:
 import logging
 import requests
 
+from src import config
+
+# Access the 'walletd' section of the configuration file
+API_URL = config.get('walletd', 'url')
+API_PORT = config.get('walletd', 'port')
+
+
 def check_address_valid(address):
     """
     Check if an address is valid.
@@ -33,13 +40,13 @@ def check_address_valid(address):
     try:
         payload = {"address": address}  # using the given address
         # 5359 is the default port for the QRL walletd-rest-proxy API
-        valid_address = requests.post("http://127.0.0.1:5359/api/IsValidAddress", json=payload)
+        valid_address = requests.post(f'{API_URL}:{API_PORT}/api/IsValidAddress', json=payload)
         valid_address.raise_for_status()  # raise an exception if the request fails
         logging.info('Address {} is valid'.format(address))  # log that the address is valid
     except requests.exceptions.RequestException as err:
-        logging.error('Could not get address state: {}'.format(err)) 
+        logging.error('Could not get address state: {}'.format(err))
         raise
-    # check for a "code" key in the json as this indicates a failure of some sort. Handle error raising an Exception if so 
+    # check for a "code" key in the json as this indicates a failure of some sort. Handle error raising an Exception if so
     if 'code' in valid_address.json():
         logging.error('Could not get address state: {}'.format(valid_address.json()['error']))
         raise Exception('Could not get address state: {}'.format(valid_address.json()['error']))
@@ -62,7 +69,7 @@ def get_address_balance(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_balance = requests.post("http://127.0.0.1:5359/api/GetBalance", json=payload)
+        get_balance = requests.post(f"{API_URL}:{API_PORT}/api/GetBalance", json=payload)
         get_balance.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address balance: {}'.format(err))
@@ -105,7 +112,7 @@ def get_address_tx_hashes(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_tx_hashes = requests.post("http://127.0.0.1:5359/api/GetTransactionsByAddress", json=payload)
+        get_tx_hashes = requests.post(f"{API_URL}:{API_PORT}/api/GetTransactionsByAddress", json=payload)
         get_tx_hashes.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address tx hashes: {}'.format(err))
@@ -162,7 +169,7 @@ def get_address_ots_keys(address):
     """
     try:
         payload = {"address": address}  # using the given address
-        get_ots_keys = requests.post("http://127.0.0.1:5359/api/GetOTS", json=payload)
+        get_ots_keys = requests.post(f"{API_URL}:{API_PORT}/api/GetOTS", json=payload)
         get_ots_keys.raise_for_status()  # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get address ots keys: {}'.format(err))
