@@ -40,6 +40,14 @@ def get_block_data(block_height):
     :return: the block data in an array
     """
     # get the block data from the local node
+    # check if block_height is an integer, even if it is a string of an integer (e.g. "1") and raise exception if not
+    if not isinstance(block_height, int):
+        try:
+            block_height = int(block_height)
+        except ValueError:
+            logging.error('Block height must be an integer')
+            raise Exception('Block height must be an integer')
+    # get the block data from the local node
     try:
         payload = { "block_number": block_height} # using the given block number
         block_by_number = requests.post(f'{API_URL}:{API_PORT}/api/GetBlockByNumber', json=payload) # 5359 is the default port for the QRL walletd-rest-proxy API
