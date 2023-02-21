@@ -34,9 +34,9 @@ def test_get_good_block_data():
     assert block_data_recieved != "True"
     assert block_data_recieved != "None"
     # assert that it is 15
-    assert int(block_data_recieved['block']['block_number']) == block_height
+    assert int(block_data_recieved['header']['block_number']) == block_height
     # assert that it is 15
-    assert int(get_block_data(block_height)['block']['block_number']) == 15
+    assert int(get_block_data(block_height)['header']['block_number']) == 15
 
     # assert that it is a dict
     assert isinstance(get_block_data(block_height), dict)
@@ -47,7 +47,7 @@ def test_get_bad_block_data():
     """ Test the get_block_data() function.
     """
     # get the block data from the local node
-    block_height = arse
+    block_height = "arse"
 
     # assert that we get an exception searching for a block that does not exist using 0xff as the block number
     with pytest.raises(Exception):

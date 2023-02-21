@@ -58,7 +58,6 @@ def get_block_data(block_height):
         raise Exception('Could not get block data')
     # get the block data from the response
     block_data = block_by_number.json()['block'] # get the block data from the response
-    print(block_data)
     return block_data # return the block data in an array
 
 
