@@ -22,8 +22,8 @@ import logging
 # test the config file opens and fail if not 
 try:
     config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
-    conf = configparser.ConfigParser() 
-    conf.read(config_file)  
+    config = configparser.ConfigParser() 
+    config.read(config_file)  
 except:
     logging.error('')
     raise Exception('')
@@ -60,9 +60,9 @@ if not os.path.splitext(config_file)[1] == '.ini':
 
 # check if all sections and keys from example config are present in config file
 for section in ex_conf.sections():
-    if section not in conf:
+    if section not in config:
         logging.warning(f'Section [{section}] is missing from {config_file}. Using defaults.')
     else:
         for key in ex_conf[section]:
-            if key not in conf[section]:
+            if key not in config[section]:
                 logging.warning(f'Key {key} is missing from section [{section}] in {config_file}. Using default value.')
