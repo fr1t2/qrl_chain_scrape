@@ -13,7 +13,7 @@ from src import get_block_data
 def test_get_chain_height():
     """ Test the get_chain_height() function.
     """
-    assert get_chain_height() > 0
+    assert int(get_chain_height()) > 0
 
 def test_get_good_block_data(): 
     """ Test the get_block_data() function.

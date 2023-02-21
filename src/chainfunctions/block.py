@@ -42,7 +42,7 @@ def get_block_data(block_height):
     # get the block data from the local node
     try:
         payload = { "block_number": block_height} # using the given block number
-        block_by_number = requests.post(f'{API_URL}:{API_PORT/}api/GetBlockByNumber', json=payload) # 5359 is the default port for the QRL walletd-rest-proxy API
+        block_by_number = requests.post(f'{API_URL}:{API_PORT}/api/GetBlockByNumber', json=payload) # 5359 is the default port for the QRL walletd-rest-proxy API
         block_by_number.raise_for_status() # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get block data: {}'.format(err))
