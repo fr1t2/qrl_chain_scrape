@@ -23,7 +23,7 @@ import logging
 try:
     config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
     conf = configparser.ConfigParser() 
-    conf.read_file(config_file)  
+    conf.read(config_file)  
 except:
     logging.error('')
     raise Exception('')
