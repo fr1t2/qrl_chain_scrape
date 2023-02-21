@@ -5,6 +5,8 @@ from src import config
 
 # Access the 'walletd' section of the configuration file
 API_URL = config.get('walletd', 'url')
+API_PORT = config.get('walletd', 'port')
+#{API_URL}:{API_PORT}
 
 # get the block height of the chain from the local node and return it
 def get_chain_height():
@@ -14,13 +16,21 @@ def get_chain_height():
     """
     # get the block height from the local node
     try:
-        response = requests.get(f'{API_URL}/GetHeight') # 5359 is the default port for the QRL walletd-rest-proxy API
+        response = requests.get(f'{API_URL}:{API_PORT}/api/GetHeight') # 5359 is the default port for the QRL walletd-rest-proxy API
         response.raise_for_status()
     except requests.exceptions.RequestException as err:
         logging.error('Could not get chain height: {}'.format(err))
-        raise
+        raise Exception('Could not get chain height')
 
+        # test for empty array {} and raise exception if it is
+        if response.json() == {}:
+            logging.error('No data returned from the node')
+            raise Exception('No data returned from the node')
+
+    # get the block height from the response
     return response.json()['height'] # return the height of the chain
+
+
 
 # get the block data from the local node for a given block and return it's data in an array
 def get_block_data(block_height):
@@ -32,17 +42,13 @@ def get_block_data(block_height):
     # get the block data from the local node
     try:
         payload = { "block_number": block_height} # using the given block number
-        getBlockByNumber = requests.post("http://127.0.0.1:5359/api/GetBlockByNumber", data=json.dumps(payload)) # 5359 is the default port for the QRL walletd-rest-proxy API
-
-        getBlockByNumber.raise_for_status() # raise an exception if the request fails
-
+        block_by_number = requests.post(f'{API_URL}:{API_PORT}api/GetBlockByNumber', json=payload) # 5359 is the default port for the QRL walletd-rest-proxy API
+        block_by_number.raise_for_status() # raise an exception if the request fails
     except requests.exceptions.RequestException as err:
         logging.error('Could not get block data: {}'.format(err))
-        raise
-
+        raise Exception('Could not get block data')
     # get the block data from the response
-    block_data = getBlockByNumber.json()['block'] # get the block data from the response
-
+    block_data = block_by_number.json()['block'] # get the block data from the response
     return block_data # return the block data in an array
 
 
