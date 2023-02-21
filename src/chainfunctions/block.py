@@ -39,8 +39,9 @@ def get_block_data(block_height):
     :param block_height: the height of the block to get
     :return: the block data in an array
     """
-    # get the block data from the local node
+
     # check if block_height is an integer, even if it is a string of an integer (e.g. "1") and raise exception if not
+    
     if not isinstance(block_height, int):
         try:
             block_height = int(block_height)
@@ -57,6 +58,7 @@ def get_block_data(block_height):
         raise Exception('Could not get block data')
     # get the block data from the response
     block_data = block_by_number.json()['block'] # get the block data from the response
+    print(block_data)
     return block_data # return the block data in an array
 
 
