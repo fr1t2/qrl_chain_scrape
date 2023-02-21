@@ -6,7 +6,6 @@ from chainfunctions.address import check_address_valid
 from chainfunctions.address import get_address_balance
 from chainfunctions.address import get_address_ots_keys
 from chainfunctions.address import get_address_tx_hashes
-from chainfunctions.address import parse_qrl_address
 
 if __name__ == "__main__":
     # if the script is passed with a variable "chain" return the height of the chain, 
@@ -30,15 +29,6 @@ if __name__ == "__main__":
                 sys.exit(0)
             elif len(sys.argv) > 3 and sys.argv[3] == "tx":
                 print(f'Check Address TX Hashes: {get_address_tx_hashes(sys.argv[4])}')
-                sys.exit(0)
-            elif len(sys.argv) > 3 and sys.argv[3] == "parse":
-                print(f'Check Address Parse: {parse_qrl_address(sys.argv[4])}')
-                address = "Q01040062908a55128609363f80102e3c07821eb06d579d0151e575428e9389f4532593a2291247"
-                sig_scheme, hash_func, tree_height = parse_qrl_address(address)
-
-                print("Hash function:", "SHAKE-{}".format(128 << hash_func))
-                print("Signature scheme:", "XMSS" if sig_scheme == 0 else "WOTS")
-                print("Tree height:", 2 ** tree_height)
                 sys.exit(0)
             # check if "address Q010500dacbf29a83ef6832bcf16f0592adb15313836228a873a7b8eed1c354c4414a206ad38728" passed and give validity
             elif len(sys.argv) > 3:
