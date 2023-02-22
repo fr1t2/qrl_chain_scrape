@@ -23,25 +23,3 @@ jobs:
           else
             pytest
           fi
-      - name: "Send GitHub notification on success"
-        if: success()
-        uses: "actions/github-script@v4"
-        with:
-          script: |
-            github.notifications.create({
-              subject: "Tests passed successfully",
-              reason: "Tests",
-              message: "All tests passed successfully."
-            })
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Send GitHub notification on failure"
-        if: failure()
-        uses: "actions/github-script@v4"
-        with:
-          script: |
-            github.notifications.create({
-              subject: "Tests failed",
-              reason: "Tests",
-              message: "Some tests have failed. Please check the build logs for more information."
-            })
-          token: ${{ secrets.QRL_CHAIN_SCRAPE }}
