@@ -18,7 +18,7 @@ TODO:
 """
 
 import logging
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, mock_open
 
 from requests.exceptions import RequestException
 import pytest
@@ -35,6 +35,18 @@ from src.price import get_coin_data
 
 LAST_UPDATE = datetime.datetime.now().timestamp()
 
+
+def test_function():
+    # create a mock config file
+    with patch('builtins.open', mock_open(read_data='[coingecko]\nrate_limit_time = 10\nrate_limit_calls = 5\n')) as mock_file:
+        # call the function that uses the config file
+        result = my_function()
+
+    # assert that the function returned the expected result
+    assert result == expected_result
+
+    # assert that the config file was opened with the correct path and mode
+    mock_file.assert_called_once_with('/qrl_chain_scrape/src/config.ini', 'r')
 
 
 def test_rate_limit():
