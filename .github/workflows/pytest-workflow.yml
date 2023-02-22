@@ -8,12 +8,8 @@ jobs:
     runs-on: "ubuntu-latest"
     container:
       image: "python:3.10.0b4-buster"
-      # define directory to mount
-      options: >-
-        --mount
-        type=bind,
-        source=${{ github.workspace }},
-        target=/github/workspace
+      volumes:
+        - "${{ github.workspace }}:/github/workspace"
     steps:
       - uses: "actions/checkout@v2"
       - name: "Install dependencies"
