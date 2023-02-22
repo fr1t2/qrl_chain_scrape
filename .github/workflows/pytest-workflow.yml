@@ -1,0 +1,47 @@
+name: "Run Pytest on Commit"
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run_tests:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: "Run tests"
+        run: |
+          if echo "${{ github.event.head_commit.message }}" | grep -q "pytest:api" || echo "${{ github.event.head_commit.message }}" | grep -q "pytest:database"; then
+            pytest -m "api or database"
+          elif echo "${{ github.event.head_commit.message }}" | grep -q "pytest:price_info"; then
+            pytest -m "price_info"
+          elif echo "${{ github.event.head_commit.message }}" | grep -q "pytest:database"; then
+            pytest -m "price_info"
+          else
+            pytest
+          fi
+      - name: "Send GitHub notification on success"
+        if: success()
+        uses: "actions/github-script@v4"
+        with:
+          script: |
+            github.notifications.create({
+              subject: "Tests passed successfully",
+              reason: "Tests",
+              message: "All tests passed successfully."
+            })
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Send GitHub notification on failure"
+        if: failure()
+        uses: "actions/github-script@v4"
+        with:
+          script: |
+            github.notifications.create({
+              subject: "Tests failed",
+              reason: "Tests",
+              message: "Some tests have failed. Please check the build logs for more information."
+            })
+          token: ${{ secrets.QRL_CHAIN_SCRAPE }}
