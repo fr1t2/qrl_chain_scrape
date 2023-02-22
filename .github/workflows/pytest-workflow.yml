@@ -17,7 +17,7 @@ jobs:
       - name: "Copy config.ini.example file"
         run: |
           mkdir -p qrl_chain_scrape/src/
-          curl https://raw.githubusercontent.com/fr1t2/qrl_chain_scrape/dev/config.ini.example --output qrl_chain_scrape/src/config.ini
+          curl https://raw.githubusercontent.com/fr1t2/qrl_chain_scrape/dev/src/config.ini.example --output qrl_chain_scrape/src/config.ini
       - name: "Run tests"
         run: |
           if echo "${{ github.event.head_commit.message }}" | grep -q "pytest:api" || echo "${{ github.event.head_commit.message }}" | grep -q "pytest:database"; then
