@@ -1,6 +1,6 @@
 # Import the functions from the submodules
-from .coingecko_price_scrape import *
-from .block import *
+from .coingecko_price_scrape_v1 import *
+from .coingecko import *
 
 # Import the configuration from the main package
 from src import config

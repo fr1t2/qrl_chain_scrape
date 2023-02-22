@@ -18,3 +18,13 @@ port = 3306 # mysql port number (default 3306)
 [walletd]
 url = http://127.0.0.1
 port = 5359
+
+
+[coingecko]
+api_url = https://api.coingecko.com/api/v3/
+pro_api_url = https://pro-api.coingecko.com/api/v3/
+api_key = YOUR_API_KEY
+# in sec how long is the limit imposed
+rate_limit_time = 60 
+# How many calls can we make per limit?
+rate_limit_calls = 10
