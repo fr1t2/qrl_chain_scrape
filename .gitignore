@@ -1,3 +1,7 @@
+# project specfic files
+# if found anywhere do not commit this file:
+config.ini 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
