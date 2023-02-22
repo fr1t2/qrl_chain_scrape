@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+attrs==22.2.0
+    # via pytest
 certifi==2022.12.7
     # via
     #   -r requirements.in
@@ -12,18 +14,30 @@ charset-normalizer==3.0.1
     # via
     #   -r requirements.in
     #   requests
+exceptiongroup==1.1.0
+    # via pytest
 idna==3.4
     # via
     #   -r requirements.in
     #   requests
+iniconfig==2.0.0
+    # via pytest
 mysql-connector-python==8.0.32
     # via -r requirements.in
+packaging==23.0
+    # via pytest
+pluggy==1.0.0
+    # via pytest
 protobuf==3.20.3
     # via
     #   -r requirements.in
     #   mysql-connector-python
+pytest==7.2.1
+    # via -r requirements.in
 requests==2.28.2
     # via -r requirements.in
+tomli==2.0.1
+    # via pytest
 urllib3==1.26.14
     # via
     #   -r requirements.in
