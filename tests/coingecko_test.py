@@ -20,7 +20,6 @@ TODO:
 import logging
 from unittest.mock import patch, MagicMock
 
-import capsys
 from requests.exceptions import RequestException
 import pytest
 import datetime
@@ -98,19 +97,19 @@ def test_compile_api_url():
     # Test if function returns None and prints an error message when api_url is None
     config.set("coingecko", "api_url", None)
     assert compile_api_url("ping") is None
-    captured = capsys.readouterr()
+    captured = pytest.capsys.readouterr()
     assert "Error: No 'api_url' value found in config.ini file." in captured.out
 
     # Test if function returns None and prints an error message when pro_api_url is None
     config.set("coingecko", "pro_api_url", None)
     assert compile_api_url("ping") is None
-    captured = capsys.readouterr()
+    captured = pytest.capsys.readouterr()
     assert "Error: No 'pro_api_url' value found in config.ini file." in captured.out
 
     # Test if function returns None and prints an error message when api_key is None
     config.set("coingecko", "api_key", None)
     assert compile_api_url("ping") is None
-    captured = capsys.readouterr()
+    captured = pytest.capsys.readouterr()
     assert "Error: No 'api_key' value found in config.ini file." in captured.out
 
 

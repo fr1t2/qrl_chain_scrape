@@ -6,4 +6,3 @@ protobuf
 requests
 urllib3
 pytest
-pytest-capturelog
