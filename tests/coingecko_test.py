@@ -40,24 +40,6 @@ import os
 import shutil
 from unittest.mock import patch, mock_open
 
-def test_function(func):
-    def wrapper():
-        # Create a mock config file
-        with patch('builtins.open', mock_open(read_data='[coingecko]\nrate_limit_time = 10\nrate_limit_calls = 5\n[pricedb]\nuser = USER\npassword = PASSWORD\nhost = localhost\ndatabase = DATABASE_NAME\nport = 3306\n\n[chaindb]\ndatabase = chain-scrape\nuser = qrl\npassword = blockchain\nhost = localhost\nport = 3306\n\n[walletd]\nurl = http://127.0.0.1\nport = 5359\n')) as mock_file:
-            # Create a copy of the config file
-            src_file = os.path.join(os.getcwd(), 'config.ini.example')
-            dst_file = os.path.join(os.getcwd(), 'config.ini')
-            shutil.copy(src_file, dst_file)
-
-            # Call the function that uses the config file
-            func()
-
-            # Remove the config file copy
-            os.remove(dst_file)
-
-    return wrapper
-
-@test_function
 def test_rate_limit():
     global LAST_UPDATE #pylint: disable="w0603"
     LAST_UPDATE = 0
@@ -97,7 +79,6 @@ def test_rate_limit():
     # Check if function returns False and prints an error message when an exception occurs
     assert not rate_limit(None)
 
-@test_function
 def test_compile_api_url():
     # Test for free API usage
     config.set("coingecko", "api_key", "YOUR_API_KEY")
@@ -135,7 +116,6 @@ def test_compile_api_url():
 
 
 @patch('src.price.requests')
-@test_function
 def test_ping_api(mock_requests):
     # Create a mock response object
     mock_response = MagicMock()
@@ -158,7 +138,6 @@ def test_ping_api(mock_requests):
     config.set("coingecko", "pro_api_url", "https://httpstat.us/404")
     assert ping_api() is False
 
-@test_function
 def test_get_all_coins():
     # Test that the function returns a list of dictionaries
     coins_data = get_all_coins()
@@ -172,7 +151,6 @@ def test_get_all_coins():
     # Test that the returned list is not empty
     assert len(coins_data) > 0
 
-@test_function
 def test_get_coin_data():
     # Mock response from the Coingecko API
     mock_response = {"id": "bitcoin", "symbol": "btc", "name": "Bitcoin"}
@@ -190,7 +168,6 @@ def test_get_coin_data():
         assert bool(coin_data)
 
 
-@test_function
 @patch("price.get_coin_data")
 def test_supported_denom(mock_get_coin_data):
     # Set up mock response data
