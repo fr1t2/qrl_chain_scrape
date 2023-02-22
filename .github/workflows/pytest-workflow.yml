@@ -8,6 +8,12 @@ jobs:
     runs-on: "ubuntu-latest"
     container:
       image: "python:3.10.0b4-buster"
+      # define directory to mount
+      options: >-
+        --mount
+        type=bind,
+        source=${{ github.workspace }},
+        target=/github/workspace
     steps:
       - uses: "actions/checkout@v2"
       - name: "Install dependencies"
@@ -16,8 +22,7 @@ jobs:
           pip install -r requirements.txt
       - name: "Copy config.ini.example file"
         run: |
-          mkdir -p qrl_chain_scrape/src/
-          curl https://raw.githubusercontent.com/fr1t2/qrl_chain_scrape/dev/src/config.ini.example --output qrl_chain_scrape/src/config.ini
+          curl https://raw.githubusercontent.com/fr1t2/qrl_chain_scrape/dev/src/config.ini.example --output /github/workspace/src/config.ini
       - name: "Run tests"
         run: |
           if echo "${{ github.event.head_commit.message }}" | grep -q "pytest:api" || echo "${{ github.event.head_commit.message }}" | grep -q "pytest:database"; then
