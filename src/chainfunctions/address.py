@@ -16,7 +16,7 @@ Functions:
 import logging
 import requests
 
-from chainfunctions.config import *
+from chainfunctions import config
 
 # Access the 'walletd' section of the configuration file
 API_URL = config.get('walletd', 'url')
