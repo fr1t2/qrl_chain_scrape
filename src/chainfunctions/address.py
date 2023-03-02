@@ -16,7 +16,7 @@ Functions:
 import logging
 import requests
 
-from src.config import get_config
+from config import get_config
 
 # Access the 'walletd' section of the configuration file
 API_URL = get_config().get('walletd', 'url')

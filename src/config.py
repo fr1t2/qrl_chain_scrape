@@ -1,4 +1,4 @@
-from ConfigParser import ConfigParser
+import configparser
 import os
 
 DEFAULT_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.ini')
@@ -9,7 +9,7 @@ def get_config_file():
 CONFIG_FILE = get_config_file()
 
 def create_config(config_file=None):
-    parser = ConfigParser()
+    parser = configparser.ConfigParser()
     parser.read(config_file or CONFIG_FILE)
     return parser
 
@@ -17,46 +17,3 @@ CONFIG = create_config()
 
 def get_config():
   return CONFIG
-
-#import logging
-## Import the chainfunctions sub-module
-## from src.chainfunctions import *
-#
-#
-## test the config file opens and fail if not
-#try:
-#    config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
-#    config = configparser.ConfigParser()
-#    config.read(config_file)
-#except configparser.Error as err:
-#    logging.error(err)
-#    raise Exception(err) from err
-#
-#try:
-#    example_config_file = os.path.join(os.path.dirname(__file__), 'config.ini.example') # get the path to the config file
-#    ex_conf = configparser.ConfigParser() # create a new config object
-#    ex_conf.read(example_config_file) # read the config file
-#except configparser.Error as err:
-#    logging.error('Config file is not a valid. Please copy config.ini.example to the correct location /qrl_chain_scrape/src/config.ini.')
-#    raise Exception('Config file is not a valid. Please copy config.ini.example to the correct location in /qrl_chain_scrape/src/config.ini.') from err
-#
-#
-#
-## is the file empty? if empty exit on failure, log the error and suggest coping the config.ini.example to the correct location
-#if os.stat(config_file).st_size == 0:
-#    logging.error(f'Config file {config_file} is empty. Please copy {example_config_file} to the correct location.')
-#    raise Exception(f'Config file {config_file} is empty. Please copy {example_config_file} to the correct location.')
-#
-## is the file formatted as a .ini file? if not, raise an error and exit
-#if not os.path.splitext(config_file)[1] == '.ini':
-#    logging.error(f'Config file {config_file} is not named as a valid .ini file. Please copy {example_config_file} to the correct location.')
-#    raise Exception(f'Config file {config_file} is not named as a valid .ini file. Please copy {example_config_file} to the correct location.')
-#
-# check if all sections and keys from example config are present in config file
-#for section in ex_conf.sections():
-#    if section not in config:
-#        logging.warning(f'Section [{section}] is missing from {config_file}. Using defaults.')
-#    else:
-#        for key in ex_conf[section]:
-#            if key not in config[section]:
-#                logging.warning(f'Key {key} is missing from section [{section}] in {config_file}. Using default value.')
