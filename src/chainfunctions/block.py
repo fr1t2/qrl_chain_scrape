@@ -1,11 +1,11 @@
 """ grab block data from a local node for a given block and return it's data in an array """
 import logging
 import requests
-from src import config
+from src.config import get_config
 
 # Access the 'walletd' section of the configuration file
-API_URL = config.get('walletd', 'url')
-API_PORT = config.get('walletd', 'port')
+API_URL = get_config().get('walletd', 'url')
+API_PORT = get_config().get('walletd', 'port')
 #{API_URL}:{API_PORT}
 
 # get the block height of the chain from the local node and return it

@@ -1,8 +1,8 @@
 import sys
 
-from .chainfunctions import get_chain_height
-from .chainfunctions.block import get_block_data
-from .chainfunctions.address import check_address_valid
+from chainfunctions.block import get_chain_height
+from chainfunctions.block import get_block_data
+from chainfunctions.address import check_address_valid
 from chainfunctions.address import get_address_balance
 from chainfunctions.address import get_address_ots_keys
 from chainfunctions.address import get_address_tx_hashes
