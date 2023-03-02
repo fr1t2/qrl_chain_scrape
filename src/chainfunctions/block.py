@@ -1,7 +1,7 @@
 """ grab block data from a local node for a given block and return it's data in an array """
 import logging
 import requests
-from chainfunctions import config
+from .. import config
 
 # Access the 'walletd' section of the configuration file
 API_URL = config.get('walletd', 'url')
