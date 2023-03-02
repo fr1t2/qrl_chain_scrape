@@ -34,7 +34,7 @@ def connect(database=None):
     try:
         connection = mysql.connector.connect(
             host=config.get(database, 'host'),
-            port=config.get(database, 'port'),
+            port=config.get(database, 'port', fallback=3306),
             user=config.get(database, 'user'),
             password=config.get(database, 'password'),
             database=database
@@ -187,6 +187,15 @@ def create_table_if_not_exists(connection, table, values, database=None, cursor=
         ```
 
     """
+    # add a check for the connection being NoneType 
+    if connection is None:
+        try:
+            connection = connect() # get a connection object if one is not given
+        except Exception as err:
+            logging.error('Could not connect to database: {}'.format(err))
+            raise Exception('Could not connect to database: {}'.format(connection.json()['error'])) from err
+
+    # get a cursor if one is not given
     if cursor is None:
         cursor = connection.cursor()
 

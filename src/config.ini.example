@@ -7,11 +7,11 @@ port = 3306 # default: 3306
 
 
 [chaindb]
-database = chain-scrape # mysql database name
-user = qrl # mysql user
-password = blockchain # mysql password
-host = localhost # mysql host (default localhost)
-port = 3306 # mysql port number (default 3306)
+database = qrl_chain_scrape 
+user = qrl
+password = blockchain 
+host = localhost 
+port = 3306 
 
 
 

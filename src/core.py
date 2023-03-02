@@ -14,7 +14,33 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with variable "chain"
         # if the script passed with variable "chain block" return block data for the block
         if len(sys.argv) > 2 and sys.argv[2] == "block":
-            print(f'Get Block: {get_block_data(int(sys.argv[3]))}')
+            # block will need to be passed as well as the variable, so like "block 1" or "block 100"
+            # for each block up to number given, fetch the data and return in large array of block data
+            if len(sys.argv) > 3:
+                if sys.argv[3] == "single":
+                    if sys.argv[4].isdigit():
+                        print(f'Get Block: {get_block_data(int(sys.argv[4]))}')
+                        sys.exit(0)
+                    else:
+                        print("Block number must be an integer")
+                        sys.exit(0)
+                elif sys.argv[3] == "range":
+                    if sys.argv[4].isdigit() and sys.argv[5].isdigit():
+                        block_data = {}
+                        for block in range(int(sys.argv[4]), int(sys.argv[5])):
+                            block_data[block] = get_block_data(block)
+                        print(f'Get Block: {block_data}')
+                        sys.exit(0)
+                    else:
+                        print("Block numbers must be an integer and provided in a range {1 100}")
+                        sys.exit(0)
+                else:
+                    print("Block must be single or range")
+                    sys.exit(0)
+            else:
+                print("Block number must be provided")
+                sys.exit(0)
+        # if the script passed with variable "chain tx" return transaction data for the transaction
             sys.exit(0)
         # if the script is passed with a variable "address" check if address is valid
         elif len(sys.argv) > 2 and sys.argv[2] == "address":
