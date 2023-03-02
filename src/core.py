@@ -41,50 +41,39 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                             block_data[block][tx_hash] = {}
                             if 'transfer' in tx:
                                 if 'transfer' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'transfer'
-                                    tx_type.append('transfer')
+                                    continue
+                                block_data[block][tx_hash] = 'transfer'
+                                tx_type.append('transfer')
                             if 'lattice' in tx:
                                 if 'lattice' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'lattice'
-                                    tx_type.append('lattice')
-                            if 'coinbase' in tx:
+                                    continue
+                                block_data[block][tx_hash] = 'lattice'
+                                tx_type.append('lattice')
+                        if 'coinbase' in tx:
                                 if 'coinbase' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'coinbase'
-                                    tx_type.append('coinbase')
-                            if 'token' in tx:
+                                    continue
+                                block_data[block][tx_hash] = 'coinbase'
+                                tx_type.append('coinbase')
+                        if 'token' in tx:
                                 if 'token' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'token'
-                                    tx_type.append('token')
-
+                                    continue
+                                block_data[block][tx_hash] = 'token'
+                                tx_type.append('token')
                             if 'message' in tx:
                                 if 'message' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'message'
-                                    tx_type.append('message')
-
+                                    continue
+                                block_data[block][tx_hash] = 'message'
+                                tx_type.append('message')
                             if 'slave' in tx:
                                 if 'slave' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'slave'
-                                    tx_type.append('slave')
-
+                                    continue
+                                block_data[block][tx_hash] = 'slave'
+                                tx_type.append('slave')
                             if 'transfer_token' in tx:
                                 if 'transfer_token' in tx_type:
-                                    break
-                                else:
-                                    block_data[block][tx_hash] = 'transfer_token'
-                                    tx_type.append('transfer_token')
-
+                                    continue
+                                block_data[block][tx_hash] = 'transfer_token'
+                                tx_type.append('transfer_token')
                             # if the tx_type contains all of the above, exit the for loop 
                             if 'transfer' in tx_type and 'lattice' in tx_type and 'coinbase' in tx_type and 'token' in tx_type and 'message' in tx_type and 'slave' in tx_type and 'transfer_token' in tx_type:
                                 exit(0)
