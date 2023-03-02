@@ -20,22 +20,22 @@ import logging
 # from src.chainfunctions import *
 
 
-# test the config file opens and fail if not 
+# test the config file opens and fail if not
 try:
     config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
-    config = configparser.ConfigParser() 
-    config.read(config_file)  
-except:
-    logging.error('')
-    raise Exception('')
+    config = configparser.ConfigParser()
+    config.read(config_file)
+except configparser.Error as err:
+    logging.error(err)
+    raise Exception(err) from err
 
 try:
     example_config_file = os.path.join(os.path.dirname(__file__), 'config.ini.example') # get the path to the config file
     ex_conf = configparser.ConfigParser() # create a new config object
     ex_conf.read(example_config_file) # read the config file
-except configparser.Error:
+except configparser.Error as err:
     logging.error('Config file is not a valid. Please copy config.ini.example to the correct location /qrl_chain_scrape/src/config.ini.')
-    raise Exception('Config file is not a valid. Please copy config.ini.example to the correct location in /qrl_chain_scrape/src/config.ini.')
+    raise Exception('Config file is not a valid. Please copy config.ini.example to the correct location in /qrl_chain_scrape/src/config.ini.') from err
 
 
 

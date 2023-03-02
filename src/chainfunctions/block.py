@@ -1,6 +1,6 @@
 """ grab block data from a local node for a given block and return it's data in an array """
-import requests
 import logging
+import requests
 from src import config
 
 # Access the 'walletd' section of the configuration file
