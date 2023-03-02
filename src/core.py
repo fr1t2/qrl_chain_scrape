@@ -1,5 +1,5 @@
 import sys
-
+import json
 from chainfunctions.block import get_chain_height
 from chainfunctions.block import get_block_data
 from chainfunctions.address import check_address_valid
@@ -19,7 +19,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
         if len(sys.argv) > 3:
             if sys.argv[3] == "single":
                 if sys.argv[4].isdigit():
-                    print(f'Get Block: {get_block_data(int(sys.argv[4]))}')
+                    print(f'Get Block: {json.dumps(get_block_data(int(sys.argv[4])))}')
                     sys.exit(0)
                 else:
                     print("Block number must be an integer")
@@ -29,7 +29,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                     block_data = {}
                     for block in range(int(sys.argv[4]), int(sys.argv[5])):
                         block_data[block] = get_block_data(block)
-                    print(f'Get Block: {block_data}')
+                    print(f'Get Block: {json.dumps(block_data)}')
                     sys.exit(0)
                 else:
                     print("Block numbers must be an integer and provided in a range {1 100}")
