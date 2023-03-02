@@ -28,8 +28,24 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                 if sys.argv[4].isdigit() and sys.argv[5].isdigit():
                     block_data = {}
                     for block in range(int(sys.argv[4]), int(sys.argv[5])):
-                        block_data[block] = get_block_data(block)
-                    print(f'Get Block: {json.dumps(block_data)}')
+                        # check for transaction type and print block # and type
+                        for tx in block.transactions
+                            if 'transfer' in tx:
+                                block_data[block] = f'{tx}: transfer'
+                            if 'lattice' in tx:
+                                block_data[block] = f'{tx}: lattice'
+                            if 'coinbase' in tx:
+                                block_data[block] = f'{tx}: coinbase'
+                            if 'token' in tx:
+                                block_data[block] = f'{tx}: token'
+                            if 'message' in tx:
+                                block_data[block] = f'{tx}: message'
+                            if 'slave' in tx:
+                                block_data[block] = f'{tx}: slave'
+                            if 'transfer_token' in tx:
+                                block_data[block] = f'{tx}: transfer_token'
+                    
+                    print(json.dumps(block_data))
                     sys.exit(0)
                 else:
                     print("Block numbers must be an integer and provided in a range {1 100}")
