@@ -29,22 +29,66 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                     block_data = {}
                     for block in range(int(sys.argv[4]), int(sys.argv[5])):
                         # check for transaction type and print block # and type
-                        for tx in block.transactions
+                        #block_data[block] = 
+
+                        this_block_data = get_block_data(block)
+#                        print(json.dumps(this_block_data['transactions']))
+                        block_data[block] = {}
+                        tx_type = []
+                        for tx in this_block_data['transactions']:
+#                            print(json.dumps(tx))
+                            tx_hash = tx['transaction_hash']
+                            block_data[block][tx_hash] = {}
                             if 'transfer' in tx:
-                                block_data[block] = f'{tx}: transfer'
+                                if 'transfer' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'transfer'
+                                    tx_type.append('transfer')
                             if 'lattice' in tx:
-                                block_data[block] = f'{tx}: lattice'
+                                if 'lattice' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'lattice'
+                                    tx_type.append('lattice')
                             if 'coinbase' in tx:
-                                block_data[block] = f'{tx}: coinbase'
+                                if 'coinbase' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'coinbase'
+                                    tx_type.append('coinbase')
                             if 'token' in tx:
-                                block_data[block] = f'{tx}: token'
+                                if 'token' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'token'
+                                    tx_type.append('token')
+
                             if 'message' in tx:
-                                block_data[block] = f'{tx}: message'
+                                if 'message' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'message'
+                                    tx_type.append('message')
+
                             if 'slave' in tx:
-                                block_data[block] = f'{tx}: slave'
+                                if 'slave' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'slave'
+                                    tx_type.append('slave')
+
                             if 'transfer_token' in tx:
-                                block_data[block] = f'{tx}: transfer_token'
-                    
+                                if 'transfer_token' in tx_type
+                                    continue
+                                else:
+                                    block_data[block][tx_hash] = 'transfer_token'
+                                    tx_type.append('transfer_token')
+
+                            # if the tx_type contains all of the above, exit the for loop 
+                            if 'transfer' in tx_type and 'lattice' in tx_type and 'coinbase' in tx_type and 'token' in tx_type and 'message' in tx_type and 'slave' in tx_type and 'transfer_token' in tx_type:
+                                exit(0)
+
                     print(json.dumps(block_data))
                     sys.exit(0)
                 else:
@@ -84,3 +128,4 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
     # if the script is passed with a variable "chain" return the height of the chain
     else:
         print(f'Get Height: {get_chain_height()}')
+
