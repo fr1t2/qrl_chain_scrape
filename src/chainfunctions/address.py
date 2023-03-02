@@ -16,11 +16,11 @@ Functions:
 import logging
 import requests
 
-from src import config
+from src.config import get_config
 
 # Access the 'walletd' section of the configuration file
-API_URL = config.get('walletd', 'url')
-API_PORT = config.get('walletd', 'port')
+API_URL = get_config().get('walletd', 'url')
+API_PORT = get_config().get('walletd', 'port')
 
 
 def check_address_valid(address):

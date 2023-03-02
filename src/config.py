@@ -1,4 +1,4 @@
-from configparser import configparser
+from ConfigParser import ConfigParser
 import os
 
 DEFAULT_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.ini')
@@ -15,6 +15,8 @@ def create_config(config_file=None):
 
 CONFIG = create_config()
 
+def get_config():
+  return CONFIG
 
 #import logging
 ## Import the chainfunctions sub-module
