@@ -49,12 +49,12 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                                     continue
                                 block_data[block][tx_hash] = 'lattice'
                                 tx_type.append('lattice')
-                        if 'coinbase' in tx:
+                            if 'coinbase' in tx:
                                 if 'coinbase' in tx_type:
                                     continue
                                 block_data[block][tx_hash] = 'coinbase'
                                 tx_type.append('coinbase')
-                        if 'token' in tx:
+                            if 'token' in tx:
                                 if 'token' in tx_type:
                                     continue
                                 block_data[block][tx_hash] = 'token'
