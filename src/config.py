@@ -1,20 +1,21 @@
-"""
-QRL Coin Scrape
-~~~~~~~~~~~~~~~
+from configparser import configparser
+import os
 
-QRL Coin Scrape is a blockchain package meant to scrape the blockchain
-data into a MySQL database for internal application needs.
+DEFAULT_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.ini')
 
-Basic Usage:
+def get_config_file():
+    return os.environ.get('CONFIG_FILE', DEFAULT_CONFIG_FILE)
 
-$ pip3 install qrl-coin-scrape
-$ qrl-coin-scrape
+CONFIG_FILE = get_config_file()
 
-See information at https://qrl.co.in/qrl-coin-scrape/docs
+def create_config(config_file=None):
+    parser = ConfigParser()
+    parser.read(config_file or CONFIG_FILE)
+    return parser
 
- """
-#import configparser
-#import os
+CONFIG = create_config()
+
+
 #import logging
 ## Import the chainfunctions sub-module
 ## from src.chainfunctions import *
@@ -49,17 +50,7 @@ See information at https://qrl.co.in/qrl-coin-scrape/docs
 #    logging.error(f'Config file {config_file} is not named as a valid .ini file. Please copy {example_config_file} to the correct location.')
 #    raise Exception(f'Config file {config_file} is not named as a valid .ini file. Please copy {example_config_file} to the correct location.')
 #
-#
-## is the content inside the file parsable as a .ini? if not, raise an error and exit
-##try:
-##    config = configparser.ConfigParser()
-##    with open(config_file) as f:
-##        config.read_file(f)
-##except configparser.Error:
-##    logging.error(f'Config file {config_file} is not a valid .ini file. Please copy {example_config_file} to the correct location.')
-##    raise Exception(f'Config file {config_file} is not a valid .ini file. Please copy {example_config_file} to the correct location.')
-#
-## check if all sections and keys from example config are present in config file
+# check if all sections and keys from example config are present in config file
 #for section in ex_conf.sections():
 #    if section not in config:
 #        logging.warning(f'Section [{section}] is missing from {config_file}. Using defaults.')
