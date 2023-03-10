@@ -2,9 +2,10 @@
 # run this file with: python3 -m unittest database_test.py
 # or: python3 -m unittest discover -s . -p "database_test.py"
 
-import unittest
-import dbhelper
+import src
+from src import db, config
 
+from src.db import dbhelper
 
 
 

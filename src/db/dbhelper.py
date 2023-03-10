@@ -28,15 +28,15 @@ def connect(database=None):
     logging.info('Connecting to database...')
 
     if database is None:
-        database = config.get('chaindb', 'database')
+        database = config.get_config('chaindb', 'database')
         logging.info('No database given, using default database: {}'.format(database))
 
     try:
         connection = mysql.connector.connect(
-            host=config.get(database, 'host'),
-            port=config.get(database, 'port', fallback=3306),
-            user=config.get(database, 'user'),
-            password=config.get(database, 'password'),
+            host=config.get_config(database, 'host'),
+            port=config.get_config(database, 'port', fallback=3306),
+            user=config.get_config(database, 'user'),
+            password=config.get_config(database, 'password'),
             database=database
         )
         logging.info('Connected to database {}.'.format(database)) # log the database name
