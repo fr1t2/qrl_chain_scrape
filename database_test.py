@@ -10,7 +10,7 @@ from src.db import dbhelper
 
 
 # Test the connect function and open a connections to the database
-connection = dbhelper.connect()
+connection = dbhelper.connect('pricedb')
 cursor = dbhelper.get_cursor(connection)
 
 db_check = dbhelper.check_database_exists(connection, 'address_report1', cursor)

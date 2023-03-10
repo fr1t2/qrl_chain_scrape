@@ -2,12 +2,12 @@
 user = USER
 password = PASSWORD
 host = localhost
-database = DATABASE_NAME # default: pricedb
+database = pricedb
 port = 3306 # default: 3306
 
 
 [chaindb]
-database = qrl_chain_scrape 
+database = chaindb 
 user = qrl
 password = blockchain 
 host = localhost 

@@ -12,6 +12,10 @@ except ImportError:
 
 from src import config
 
+CONFIG_FILE = config.get_config()
+
+print(CONFIG_FILE.get('pricedb', 'host'))
+
 def connect(database=None):
     """
     Connects to the database and returns the connection object.
@@ -28,15 +32,15 @@ def connect(database=None):
     logging.info('Connecting to database...')
 
     if database is None:
-        database = config.get_config('chaindb', 'database')
+        database = CONFIG_FILE.get('chaindb', 'database')
         logging.info('No database given, using default database: {}'.format(database))
 
     try:
         connection = mysql.connector.connect(
-            host=config.get_config(database, 'host'),
-            port=config.get_config(database, 'port', fallback=3306),
-            user=config.get_config(database, 'user'),
-            password=config.get_config(database, 'password'),
+            host=CONFIG_FILE.get(database, 'host'),
+            port=CONFIG_FILE.get(database, 'port', fallback=3306),
+            user=CONFIG_FILE.get(database, 'user'),
+            password=CONFIG_FILE.get(database, 'password'),
             database=database
         )
         logging.info('Connected to database {}.'.format(database)) # log the database name
