@@ -26,59 +26,117 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
                     sys.exit(0)
             elif sys.argv[3] == "range":
                 if sys.argv[4].isdigit() and sys.argv[5].isdigit():
+
                     block_data = {}
+                    tx_type = []
                     for block in range(int(sys.argv[4]), int(sys.argv[5])):
                         # check for transaction type and print block # and type
-                        #block_data[block] = 
+                        #block_data[block] =
 
                         this_block_data = get_block_data(block)
 #                        print(json.dumps(this_block_data['transactions']))
-                        block_data[block] = {}
-                        tx_type = []
                         for tx in this_block_data['transactions']:
-#                            print(json.dumps(tx))
+                            #print(json.dumps(tx))
                             tx_hash = tx['transaction_hash']
-                            block_data[block][tx_hash] = {}
-                            if 'transfer' in tx:
-                                if 'transfer' in tx_type:
+#                            block_data[block]['data'] = this_block_data
+                            if 'coinbase' in tx:
+                                if 'coinbase' not in tx_type:
+                                    if block not in block_data:
+                                        block_data[block] = {}
+#                                    print(f'tx_type: {tx_type}')
+#                                    print('coinbase found')
+                                    block_data[block][tx_hash] = {}
+                                    block_data[block][tx_hash] = 'coinbase'
+                                    tx_type.append('coinbase')
                                     continue
-                                block_data[block][tx_hash] = 'transfer'
-                                tx_type.append('transfer')
+                                continue
+                            if 'transfer' in tx:     
+                                if 'transfer' not in tx_type:
+                                    if block not in block_data:
+                                        block_data[block] = {}                                    
+#                                    print(f'tx_type: {tx_type}')
+#                                    print('transfer found')                           
+                                    block_data[block][tx_hash] = {}
+                                    block_data[block][tx_hash] = 'transfer'
+                                    tx_type.append('transfer')
+                                    continue
+#                                print(f'tx_type added transfer: {tx_type}')
+                                continue
+                            if 'message' in tx:
+                                if 'message' not in tx_type:
+                                    if block not in block_data:
+                                        block_data[block] = {}                                    
+#                                    print(f'tx_type: {tx_type}')
+#                                    print('message found')
+                                    block_data[block][tx_hash] = {}
+                                    block_data[block][tx_hash] = 'message'
+                                    tx_type.append('message')
+                                    continue
+                                continue
+                            if 'slave' in tx:
+                                if 'slave' not in tx_type:
+                                    if block not in block_data:
+                                        block_data[block] = {}                                    
+#                                    print(f'tx_type: {tx_type}')
+#                                    print('slave found')
+                                    block_data[block][tx_hash] = {}
+                                    block_data[block][tx_hash] = 'slave'
+                                    tx_type.append('slave')
+                                    continue
+#                                print(f'tx_type added slave: {tx_type}')
+                                continue
+                            if 'lattice' in tx:
+                                if 'lattice' not in tx_type:
+                                    if block not in block_data:
+                                        block_data[block] = {}                                    
+#                                    print(f'tx_type: {tx_type}')
+#                                    print('lattice found')
+                                    block_data[block][tx_hash] = {}
+                                    block_data[block][tx_hash] = 'lattice'
+                                    tx_type.append('lattice')
+                                    continue
+#                                print(f'tx_type added slave: {tx_type}')
+                                continue
+                            else:
+                                print('unknow found')
+                                print(tx)
+                                break
+                            #print(tx)
+                            continue
+#                            sys.exit()
+
+                            """
                             if 'lattice' in tx:
                                 if 'lattice' in tx_type:
-                                    continue
+                                    break
                                 block_data[block][tx_hash] = 'lattice'
                                 tx_type.append('lattice')
-                            if 'coinbase' in tx:
-                                if 'coinbase' in tx_type:
-                                    continue
-                                block_data[block][tx_hash] = 'coinbase'
-                                tx_type.append('coinbase')
+                                print(f'tx_type added lattice: {tx_type}')
+
+                            
                             if 'token' in tx:
                                 if 'token' in tx_type:
-                                    continue
+                                    break
                                 block_data[block][tx_hash] = 'token'
+                                print(f'tx_type added token: {tx_type}')
                                 tx_type.append('token')
-                            if 'message' in tx:
-                                if 'message' in tx_type:
-                                    continue
-                                block_data[block][tx_hash] = 'message'
-                                tx_type.append('message')
-                            if 'slave' in tx:
-                                if 'slave' in tx_type:
-                                    continue
-                                block_data[block][tx_hash] = 'slave'
-                                tx_type.append('slave')
+                                print(f'tx_type added message: {tx_type}')
+
+
                             if 'transfer_token' in tx:
                                 if 'transfer_token' in tx_type:
-                                    continue
+                                    break
                                 block_data[block][tx_hash] = 'transfer_token'
                                 tx_type.append('transfer_token')
-                            # if the tx_type contains all of the above, exit the for loop 
+                                print(f'tx_type added transfer_token: {tx_type}')
+
+                            """
+#                            # if the tx_type contains all of the above, exit the for loop 
                             if 'transfer' in tx_type and 'lattice' in tx_type and 'coinbase' in tx_type and 'token' in tx_type and 'message' in tx_type and 'slave' in tx_type and 'transfer_token' in tx_type:
-                                exit(0)
+                                sys.exit(0)
 
                     print(json.dumps(block_data))
+                    print(tx_type)
                     sys.exit(0)
                 else:
                     print("Block numbers must be an integer and provided in a range {1 100}")
@@ -117,4 +175,3 @@ if len(sys.argv) > 1 and sys.argv[1] == "chain": # if the script passed with var
     # if the script is passed with a variable "chain" return the height of the chain
     else:
         print(f'Get Height: {get_chain_height()}')
-
